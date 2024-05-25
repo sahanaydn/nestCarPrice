@@ -7,9 +7,11 @@ import {
   Param,
   Query,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
+import { UpdateUserDto } from './dtos/update-user-dto';
 
 @Controller('auth')
 export class UsersController {
@@ -20,9 +22,13 @@ export class UsersController {
     this.usersService.create(body.email, body.password);
   }
   @Get('/:id')
-  findUser(@Param('id') id: string) {
+  async findUser(@Param('id') id: string) {
     //The id in the URL comes as a string, but since the id in the service is a type number We made a type conversion
-    return this.usersService.findOne(parseInt(id));
+    const user = await this.usersService.findOne(parseInt(id));
+    if (!user) {
+      throw new NotFoundException('user not found ');
+    }
+    return user;
   }
 
   @Get()
@@ -35,5 +41,10 @@ export class UsersController {
     //The id in the URL comes as a string, but since the id in the service is a type number We made a type conversion
 
     return this.usersService.remove(parseInt(id));
+  }
+  @Patch('/:id')
+  //We need two parameters. one of them is id and other one is new data (body)
+  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(parseInt(id), body);
   }
 }
