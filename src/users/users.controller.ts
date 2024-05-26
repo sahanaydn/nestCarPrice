@@ -8,10 +8,13 @@ import {
   Query,
   Delete,
   NotFoundException,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
+import { SerializerInterceptor } from 'src/interceptors/serialize.interceptor';
 
 @Controller('auth')
 export class UsersController {
@@ -21,6 +24,7 @@ export class UsersController {
     console.log(body);
     this.usersService.create(body.email, body.password);
   }
+  @UseInterceptors(SerializerInterceptor)
   @Get('/:id')
   async findUser(@Param('id') id: string) {
     //The id in the URL comes as a string, but since the id in the service is a type number We made a type conversion
