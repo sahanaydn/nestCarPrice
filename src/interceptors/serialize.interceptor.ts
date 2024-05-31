@@ -7,8 +7,13 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
+interface ClassConstructor {
+  //this is an interface that means any class basically any class whatsoever as long as you give me class i will bw happy :)
 
-export function Serialize(dto: any) {
+  new (...args: any[]): {};
+}
+
+export function Serialize(dto: ClassConstructor) {
   return UseInterceptors(new SerializerInterceptor(dto));
 }
 

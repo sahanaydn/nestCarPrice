@@ -18,6 +18,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Post('/signup')
@@ -26,7 +27,6 @@ export class UsersController {
     this.usersService.create(body.email, body.password);
   }
   //@UseInterceptors(new SerializerInterceptor(UserDto))
-  @Serialize(UserDto)
   @Get('/:id')
   async findUser(@Param('id') id: string) {
     //The id in the URL comes as a string, but since the id in the service is a type number We made a type conversion
