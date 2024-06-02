@@ -8,8 +8,7 @@ import {
   Query,
   Delete,
   NotFoundException,
-  UseInterceptors,
-  ClassSerializerInterceptor,
+  Session,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
@@ -30,6 +29,12 @@ export class UsersController {
     console.log(body);
     return this.authService.signup(body.email, body.password);
   }
+
+  @Post('/signin')
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signin(body.email, body.password);
+  }
+
   //@UseInterceptors(new SerializerInterceptor(UserDto))
   @Get('/:id')
   async findUser(@Param('id') id: string) {
