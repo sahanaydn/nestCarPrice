@@ -19,6 +19,9 @@ export class UsersService {
   findOne(id: number) {
     //We can search not only with id but also with other variables, for example e-mail.
     //findOne is always going to return one record or null if no user is found with that given criteria.
+    if (!id) {
+      return null;
+    }
 
     return this.repo.findOneBy({ id });
   }
