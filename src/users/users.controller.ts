@@ -16,6 +16,7 @@ import { UpdateUserDto } from './dtos/update-user-dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -42,14 +43,20 @@ export class UsersController {
     return user;
   }
   //it is returning curent user
-  @Get('/whoami')
-  whoAmI(@Session() session: any) {
-    return this.usersService.findOne(session.userId);
-    //return session.userId;
-  }
+  //@Get('/whoami')
+  //whoAmI(@Session() session: any) {
+  //return this.usersService.findOne(session.userId);
+  //return session.userId;
+  //}
   @Post('/signout')
   signOut(@Session() session: any) {
     session.userId = null;
+  }
+
+  //Custom Param Decorator
+  @Get('/whoami')
+  whoAmI(@CurrentUser() user: string) {
+    return user;
   }
 
   //@UseInterceptors(new SerializerInterceptor(UserDto))
