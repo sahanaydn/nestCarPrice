@@ -21,6 +21,6 @@ export class ReportsService {
       throw new NotFoundException('Report Not Found ');
     }
     report.approved = approved;
-    return this.repo.save(report); // Değişiklikleri kaydediyoruz
+    return this.repo.save(report);
   }
 }
