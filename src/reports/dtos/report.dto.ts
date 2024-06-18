@@ -18,9 +18,13 @@ export class ReportDto {
   make: string;
   @Expose()
   model: string;
-  @Transform(({ obj }) => obj.user.id)
+  // @Transform(({ obj }) => obj.user.id)
+  // @Expose()
+  // userId: number;
+  @Transform(({ obj }) => (obj.user ? obj.user.id : null))
   @Expose()
   userId: number;
+
   @Expose()
   approved: boolean;
 }
