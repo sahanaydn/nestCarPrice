@@ -25,7 +25,7 @@ export class ReportsController {
   constructor(private reportsService: ReportsService) {}
   @Get()
   GetEstimate(@Query() query: GetEstimateDto) {
-    console.log(query);
+    return this.reportsService.createEstimate(query);
   }
   @Post()
   @UseGuards(AuthGuard)
